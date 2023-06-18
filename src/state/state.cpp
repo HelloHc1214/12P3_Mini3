@@ -13,7 +13,99 @@
  */
 int State::evaluate(){
   // [TODO] design your own evaluation function
-  return 0;
+  int State_Value = 0;
+  if (this->player == 0){
+    for (int i = 0;i < BOARD_W;i++){
+      for (int j= 0;j < BOARD_H;j++){
+        if (this->board.board[0][i][j] == 1){
+          State_Value += 10;
+        }
+        else if (this->board.board[0][i][j] == 2){
+          State_Value += 50;
+        }
+        else if (this->board.board[0][i][j] == 3){
+          State_Value += 30;
+        }
+        else if (this->board.board[0][i][j] == 4){
+          State_Value += 30;
+        }
+        else if (this->board.board[0][i][j] == 5){
+          State_Value += 90;
+        }
+        else if (this->board.board[0][i][j] == 6){
+          State_Value += 1200;
+        }
+      }
+    }
+    for (int i = 0;i < BOARD_W;i++){
+      for (int j= 0;j < BOARD_H;j++){
+        if (this->board.board[1][i][j] == 1){
+          State_Value -= 10;
+        }
+        else if (this->board.board[1][i][j] == 2){
+          State_Value -= 50;
+        }
+        else if (this->board.board[1][i][j] == 3){
+          State_Value -= 30;
+        }
+        else if (this->board.board[1][i][j] == 4){
+          State_Value -= 30;
+        }
+        else if (this->board.board[1][i][j] == 5){
+          State_Value -= 120;
+        }
+        else if (this->board.board[1][i][j] == 6){
+          State_Value -= 1200;
+        }
+      }
+    }
+  }else {
+    for (int i = 0;i < BOARD_W;i++){
+      for (int j= 0;j < BOARD_H;j++){
+        if (this->board.board[1][i][j] == 1){
+          State_Value += 10;
+        }
+        else if (this->board.board[1][i][j] == 2){
+          State_Value += 50;
+        }
+        else if (this->board.board[1][i][j] == 3){
+          State_Value += 30;
+        }
+        else if (this->board.board[1][i][j] == 4){
+          State_Value += 30;
+        }
+        else if (this->board.board[1][i][j] == 5){
+          State_Value += 120;
+        }
+        else if (this->board.board[1][i][j] == 6){
+          State_Value += 1200;
+        }
+      }
+    }
+    for (int i = 0;i < BOARD_W;i++){
+      for (int j= 0;j < BOARD_H;j++){
+        if (this->board.board[0][i][j] == 1){
+          State_Value -= 10;
+        }
+        else if (this->board.board[0][i][j] == 2){
+          State_Value -= 50;
+        }
+        else if (this->board.board[0][i][j] == 3){
+          State_Value -= 30;
+        }
+        else if (this->board.board[0][i][j] == 4){
+          State_Value -= 30;
+        }
+        else if (this->board.board[0][i][j] == 5){
+          State_Value -= 120;
+        }
+        else if (this->board.board[0][i][j] == 6){
+          State_Value -= 1200;
+        }
+      }
+    }
+  }
+  return State_Value;
 }
 
 
