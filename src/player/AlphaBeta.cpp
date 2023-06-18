@@ -35,7 +35,7 @@ void read_board(std::ifstream& fin) {
 /**
  * @brief randomly choose a move and then write it into output file
  * 
- * @param fout 
+ * @param fout
  */
 void write_valid_spot(std::ofstream& fout) {
   // Keep updating the output until getting killed.

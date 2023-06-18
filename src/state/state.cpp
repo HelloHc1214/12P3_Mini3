@@ -17,11 +17,11 @@ int State::evaluate(){
   const int Chess_Point[7] = {0,1,5,3,3,9,10000};
   for (int i = 0;i < BOARD_H;i++){
     for (int j= 0;j < BOARD_W;j++){
-      int BlockType = this->board.board[this->player][i][j];
+      int BlockType = board.board[player][i][j];
       if (BlockType != 0){
         State_Value += Chess_Point[BlockType];
       }
-      BlockType = this->board.board[1 - this->player][i][j];
+      BlockType = board.board[1 - player][i][j];
       if (BlockType != 0){
         State_Value -= Chess_Point[BlockType];
       }
