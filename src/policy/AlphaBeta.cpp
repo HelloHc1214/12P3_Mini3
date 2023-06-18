@@ -1,7 +1,7 @@
 #include <cstdlib>
 
 #include "../state/state.hpp"
-#include "./MiniMax.hpp"
+#include "./AlphaBeta.hpp"
 #define MAX(a,b) a > b? a : b
 #define MIN(a,b) a < b? a : b 
 /**
@@ -11,7 +11,7 @@
  * @param depth You may need this for other policy
  * @return Move 
  */
-Move MiniMax::get_move(State *state, int depth){
+Move AlphaBeta::get_move(State *state, int depth,int a,int b){
   if(!state->legal_actions.size())
     state->get_legal_actions();
 
@@ -19,9 +19,9 @@ Move MiniMax::get_move(State *state, int depth){
   int BestValue = -100000000;
   for (auto it : state->legal_actions){
     State* next_S = (*state).next_state(it);
-    int NowCal = get_evaluate(next_S,depth -1,false);
-    if (NowCal > BestValue){
-      BestValue = NowCal;
+    int AB_culculate = get_alphabeta(next_S,depth -1,false,-10000000,10000000);
+    if (AB_culculate > BestValue){
+      BestValue = AB_culculate;
       BestStep = it;
     }
     delete next_S;
@@ -29,7 +29,7 @@ Move MiniMax::get_move(State *state, int depth){
   return BestStep;
 }
 
-int MiniMax::get_evaluate(State *state2, int depth2,bool me){
+int AlphaBeta::get_alphabeta(State *state2, int depth2,bool me,int a,int b){
   if(!state2->legal_actions.size())
     state2->get_legal_actions();
 
@@ -40,18 +40,18 @@ int MiniMax::get_evaluate(State *state2, int depth2,bool me){
       return (*state2).evaluate() * (-1);
     }
   }else if (me){
-    int CalBest = -100000000;
+    
     for (auto it2 : state2->legal_actions){
-      int Next_Val = get_evaluate((*state2).next_state(it2),depth2 -1,false);
-      CalBest = MAX(CalBest,Next_Val);
+      a = MAX(a,get_alphabeta((*state2).next_state(it2),depth2 - 1,false,a,b));
+      if (a >= b) break;
     }
-    return CalBest;
+    return a;
   }else {
-    int CalBest = 100000000;
+    
     for (auto it3 : state2->legal_actions){
-      int Next_Val = get_evaluate((*state2).next_state(it3),depth2 -1,true);
-      CalBest = MIN(CalBest,Next_Val);
+      b = MIN(b,get_alphabeta((*state2).next_state(it3),depth2 - 1,true,a,b));
+      if (a >= b) break;
     }
-    return CalBest;
+    return b;
   }
 }
