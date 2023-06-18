@@ -16,7 +16,7 @@ Move MiniMax::get_move(State *state, int depth){
     state->get_legal_actions();
 
   Move BestStep;
-  int BestValue = -100000000; 
+  int BestValue = -100000000;
   for (auto it : state->legal_actions){
     State* next_S = (*state).next_state(it);
     int NowCal = get_evaluate(next_S,depth -1,false);
@@ -24,11 +24,15 @@ Move MiniMax::get_move(State *state, int depth){
       BestValue = NowCal;
       BestStep = it;
     }
+    delete next_S;
   }
   return BestStep;
 }
 
 int MiniMax::get_evaluate(State *state2, int depth2,bool me){
+  if(!state2->legal_actions.size())
+    state2->get_legal_actions();
+
   if (depth2 == 0){
     if (me){
       return (*state2).evaluate();

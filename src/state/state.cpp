@@ -14,43 +14,16 @@
 int State::evaluate(){
   // [TODO] design your own evaluation function
   int State_Value = 0;
-  int Chess_Point[6] = {100,500,300,300,900,10000000};
-  if (this->player == 0){
-    for (int i = 0;i < BOARD_W;i++){
-      for (int j= 0;j < BOARD_H;j++){
-        for (int idx = 1;idx <= 6;idx++){
-          if (this->board.board[0][i][j] == idx){
-            State_Value += Chess_Point[idx];
-          }
-        }
+  const int Chess_Point[7] = {0,1,5,3,3,9,10000};
+  for (int i = 0;i < BOARD_H;i++){
+    for (int j= 0;j < BOARD_W;j++){
+      int BlockType = this->board.board[this->player][i][j];
+      if (BlockType != 0){
+        State_Value += Chess_Point[BlockType];
       }
-    }
-    for (int i = 0;i < BOARD_W;i++){
-      for (int j= 0;j < BOARD_H;j++){
-        for (int idx = 1;idx <= 6;idx++){
-          if (this->board.board[1][i][j] == idx){
-            State_Value -= Chess_Point[idx];
-          }
-        }
-      }
-    }
-  }else {
-    for (int i = 0;i < BOARD_W;i++){
-      for (int j= 0;j < BOARD_H;j++){
-        for (int idx = 1;idx <= 6;idx++){
-          if (this->board.board[1][i][j] == idx){
-            State_Value += Chess_Point[idx];
-          }
-        }
-      }
-    }
-    for (int i = 0;i < BOARD_W;i++){
-      for (int j= 0;j < BOARD_H;j++){
-        for (int idx = 1;idx <= 6;idx++){
-          if (this->board.board[0][i][j] == idx){
-            State_Value -= Chess_Point[idx];
-          }
-        }
+      BlockType = this->board.board[1 - this->player][i][j];
+      if (BlockType != 0){
+        State_Value -= Chess_Point[BlockType];
       }
     }
   }
