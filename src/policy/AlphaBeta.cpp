@@ -9,50 +9,47 @@
  * @param depth You may need this for other policy
  * @return Move 
  */
-Move AlphaBeta::get_move(State *state, int depth,int a,int b){
-  if(!state->legal_actions.size())
+Move AlphaBeta::get_move(State *state, int depth){
+  if(state->legal_actions.empty())
     state->get_legal_actions();
 
   Move BestStep;
-  int val = -100000000;
-  for (auto &it : state->legal_actions){
-    State* next_S = (*state).next_state(it);
-    int AB_culculate = get_alphabeta(next_S,depth -1,false,-10000000,10000000);
-    val = std::max(val,AB_culculate);
-    if (val > a){
-      a = val;
-      //BestValue = AB_culculate;
+  int val = -100000;
+  for (const auto &it : state->legal_actions){
+    State* next_S = state->next_state(it);
+    int AB_culculate = get_alphabeta(next_S,depth -1,false,-100000,100000);
+    if (AB_culculate > val){
+      val = AB_culculate;
       BestStep = it;
     }
   }
   return BestStep;
 }
 
-int AlphaBeta::get_alphabeta(State *state3, int depth3,bool me,int a,int b){
-  if(!state3->legal_actions.size()) state3->get_legal_actions();
+int AlphaBeta::get_alphabeta(State *state, int depth,bool me,int alpha,int beta){
+  if(state->legal_actions.empty()) state->get_legal_actions();
 
 
-  if (depth3 == 0 || !state3->legal_actions.size()){
-    if (me){
-      return (*state3).evaluate();
-    }else {
-      return (*state3).evaluate() * (-1);
+  if (depth == 0 || state->legal_actions.empty() || state->game_state == WIN)
+    return me ? state->evaluate() : -state->evaluate();
+
+  if (me){
+    int value = -100000;
+    for (const auto& it : state->legal_actions){
+      State* NewState = state->next_state(it);
+      value = std::max(value,get_alphabeta(NewState, depth - 1, false, alpha, beta));
+      alpha = std::max(value,alpha);
+      if (alpha >= beta) break;
     }
-  }else if (me){
-    int val1 = -10000000;
-    for (auto it2 : state3->legal_actions){
-      val1 = std::max(val1,get_alphabeta((*state3).next_state(it2),depth3 - 1,false,a,b));
-      a = std::max(a,val1);
-      if (a >= b) break;
-    }
-    return val1;
+    return value;
   }else {
-    int val2 = 10000000;
-    for (auto it3 : state3->legal_actions){
-      val2 = std::min(val2,get_alphabeta((*state3).next_state(it3),depth3 - 1,true,a,b));
-      b = std::min(b,val2);
-      if (a >= b) break;
+    int value = 100000;
+    for (const auto& it : state->legal_actions){
+      State* NewState = state->next_state(it);
+      value = std::min(value, get_alphabeta(NewState, depth - 1, true, alpha, beta));
+      beta = std::min(value,beta);
+      if (alpha >=beta) break;
     }
-    return val2;
+    return value;
   }
 }

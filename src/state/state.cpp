@@ -13,10 +13,96 @@
  */
 int State::evaluate(){
   // [TODO] design your own evaluation function
+  /*
+  static const int bouns[6][BOARD_H][BOARD_W] = {{
+    //pawn
+    {0, 0, 0, 0, 0},
+    {50, 50, 50, 50, 50},
+    {10, 20, 30, 20, 10},
+    {0, 15, 25, 15, 0},
+    {5, 10, -10, 10, 5},
+    {0, 0, 0, 0, 0},
+  },
+  {//rookt
+    {0, 0, 0, 0, 0},
+    {5,10, 10, 10,5},
+    {-5, 0, 0, 0, -5},
+    {-5, 0, 0, 0, -5},//越中心價值越高??
+    {-5, 0, 0, 0, -5},
+    {0, 5, 5, 5, 0},
+  
+  },
+  {//knight
+    {-50, -40, -30, -40, -50},
+    {-20,0, 0, 0, -20},
+    {0, 10, 15, 10, 0},
+    {5, 15,20, 15, 5},
+    {-10, 5, 0, 5, -10},
+    {-20, -10, -10, -10, -20},
+  },
+  {//bishopt(2)
+    {-5, -5, -15, -5, -5},
+    {-10,0, 5, 0, -10},
+    {-10, 5, 10, 5, -10},
+    {-10, 5, 10, 5, -10},
+    {-10, 0, 5, 0, -10},
+    {-5, -5, -15, -5, -5},
+  },
+  {//queent(2)
+    {-20, -10, -5, -10, -20},
+    {-10,0, 0, 0, -10},
+    {-10, 0, 5, 0, -10},
+    {-10, 5, 5, 0, -10},
+    {-10,5, 0, 0, -10},
+    {-20, -10, -5, -10, -20},
+  
+  },
+  {//kingt(2)
+    {-30, -40, -50, -40, -30},
+    {-30, -40, -50, -40, -30},
+    {-30, -40, -50, -40, -30},
+    {-15, -25, -30, -25, -15},
+    {20, 10, 0, 10, 20},
+    {20, 30, 5, 30, 20},
+  
+  }
+  };
+
+  int State_Value = 0;
+  const int Chess_Point[7] = {0,95,500,320,300,900,100000};
+  for (int i = 0;i < BOARD_H;i++){
+    for (int j= 0;j < BOARD_W;j++){
+      int BlockType = board.board[player][i][j];
+      if (BlockType != 0){
+        if (!player) State_Value += (Chess_Point[BlockType] + bouns[BlockType-1][i][j]);
+        else State_Value -= (Chess_Point[BlockType] + bouns[BlockType-1][5-i][4-j]);
+      }
+      BlockType = board.board[1 - player][i][j];
+      if (BlockType != 0){
+        if (!(player)) State_Value -= (Chess_Point[BlockType] + bouns[BlockType-1][5-i][4-j]);
+        else State_Value += (Chess_Point[BlockType] + bouns[BlockType-1][i][j]);
+      }
+    }
+  }
+  return State_Value;*/
+  /*
   int State_Value = 0;
   const int Chess_Point[7] = {0,1,5,3,3,9,10000};
   for (int i = 0;i < BOARD_H;i++){
     for (int j= 0;j < BOARD_W;j++){
+      if (player == 0 && (board.board[0][i][j] != 0 || board.board[1][i][j] != 0)){
+        State_Value += Chess_Point[board.board[0][i][j]- '0'];
+        State_Value -= Chess_Point[board.board[1][i][j]- '0'];
+      }else if (player == 1 && (board.board[0][i][j] != 0 || board.board[1][i][j] != 0)){
+        State_Value += Chess_Point[board.board[1][i][j] - '0'];
+        State_Value -= Chess_Point[board.board[0][i][j] - '0'];
+      }
+    }
+  }*/
+  int State_Value = 0;
+  static const int Chess_Point[7] = {0,1,5,3,3,9,1000};
+  for (int i = 0;i < BOARD_H;++i){
+    for (int j= 0;j < BOARD_W;++j){
       int BlockType = board.board[player][i][j];
       if (BlockType != 0){
         State_Value += Chess_Point[BlockType];
@@ -27,6 +113,7 @@ int State::evaluate(){
       }
     }
   }
+
   return State_Value;
 }
 
@@ -38,24 +125,24 @@ int State::evaluate(){
  * @return State* 
  */
 State* State::next_state(Move move){
-  Board next = this->board;
+  Board next = board;
   Point from = move.first, to = move.second;
   
-  int8_t moved = next.board[this->player][from.first][from.second];
+  int8_t moved = next.board[player][from.first][from.second];
   //promotion for pawn
   if(moved == 1 && (to.first==BOARD_H-1 || to.first==0)){
     moved = 5;
   }
-  if(next.board[1-this->player][to.first][to.second]){
-    next.board[1-this->player][to.first][to.second] = 0;
+  if(next.board[1-player][to.first][to.second]){
+    next.board[1-player][to.first][to.second] = 0;
   }
   
-  next.board[this->player][from.first][from.second] = 0;
-  next.board[this->player][to.first][to.second] = moved;
+  next.board[player][from.first][from.second] = 0;
+  next.board[player][to.first][to.second] = moved;
   
-  State* next_state = new State(next, 1-this->player);
+  State* next_state = new State(next, 1-player);
   
-  if(this->game_state != WIN)
+  if(game_state != WIN)
     next_state->get_legal_actions();
   return next_state;
 }

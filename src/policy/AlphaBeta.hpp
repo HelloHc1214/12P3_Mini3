@@ -8,6 +8,6 @@
  */
 class AlphaBeta{
 public:
-  static Move get_move(State *state, int depth,int a,int b);
-  static int get_alphabeta(State *state2,int depth2,bool me,int a,int b);
+  static Move get_move(State *state, int depth);
+  static int get_alphabeta(State *state2,int depth2,bool me,int alpha,int beta);
 };
