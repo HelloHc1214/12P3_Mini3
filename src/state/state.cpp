@@ -120,6 +120,7 @@ int State::evaluate(){
       }
     }
   }
+  return State_Value;
   /*
   int State_Value = 0;
   static const int Chess_Point[7] = {0,1,5,3,3,9,1000};
@@ -136,7 +137,6 @@ int State::evaluate(){
     }
   }
   */
-  return State_Value;
 }
 
 

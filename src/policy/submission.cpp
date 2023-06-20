@@ -1,11 +1,11 @@
 #include <cstdlib>
 #include <algorithm>
 #include "../state/state.hpp"
-#include "./AlphaBeta.hpp"
+#include "./submission.hpp"
 
 
 
-Move AlphaBeta::get_move(State *state, int depth){
+Move Submission::get_move(State *state, int depth){
 
   if(state->legal_actions.empty())
     state->get_legal_actions();
@@ -24,7 +24,7 @@ Move AlphaBeta::get_move(State *state, int depth){
   return BestStep;
 }
 
-int AlphaBeta::get_alphabeta(State *state, int depth,bool me,int alpha,int beta){
+int Submission::get_alphabeta(State *state, int depth,bool me,int alpha,int beta){
 
   //std::string table_key = state->encode_state();
   //if (state_table.count(table_key)){

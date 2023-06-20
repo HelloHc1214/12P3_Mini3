@@ -3,7 +3,7 @@
 
 #include "../config.hpp"
 #include "../state/state.hpp"
-#include "../policy/AlphaBeta.hpp"
+#include "../policy/submission.hpp"
 
 State* root;
 int depth;
@@ -76,7 +76,7 @@ void write_valid_spot(std::ofstream& fout) {
     }*/
     // Choose a random spot.
     if (depth == 8) break;
-    move = AlphaBeta::get_move(root, depth);
+    move = Submission::get_move(root, depth);
 
     fout << move.first.first << " " << move.first.second << " "\
          << move.second.first << " " << move.second.second <<std::endl;
