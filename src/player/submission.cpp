@@ -40,7 +40,7 @@ void read_board(std::ifstream& fin) {
 void write_valid_spot(std::ofstream& fout) {
   // Keep updating the output until getting killed.
   Move move;
-  depth = 5;
+  depth = 4;
   /*static const char init_board[3][BOARD_H][BOARD_W] ={
     {
       {0, 0, 0, 0, 0},
