@@ -33,7 +33,7 @@ int MiniMax::get_evaluate(State *state2, int depth2,bool me){
   if(!state2->legal_actions.size())
     state2->get_legal_actions();
 
-  if (depth2 == 0){
+  if (depth2 == 0 || state2->legal_actions.empty()){
     if (me){
       return (*state2).evaluate();
     }else {

@@ -25,14 +25,11 @@ Move AlphaBeta::get_move(State *state, int depth){
 }
 
 int AlphaBeta::get_alphabeta(State *state, int depth,bool me,int alpha,int beta){
-
   //std::string table_key = state->encode_state();
   //if (state_table.count(table_key)){
   //  return state_table[table_key];
   //}
   if(state->legal_actions.empty()) state->get_legal_actions();
-
-
   if (depth == 0 || state->legal_actions.empty()){
     if (me){
       int state_val = state->evaluate();
