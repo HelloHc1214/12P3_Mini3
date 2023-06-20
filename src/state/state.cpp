@@ -13,61 +13,69 @@
  */
 int State::evaluate(){
   // [TODO] design your own evaluation function
-  /*
-  static const int bouns[6][BOARD_H][BOARD_W] = {{
-    //pawn
+  
+  static const char bouns[7][BOARD_H][BOARD_W] = {
+  {//empty
     {0, 0, 0, 0, 0},
-    {50, 50, 50, 50, 50},
-    {10, 20, 30, 20, 10},
-    {0, 15, 25, 15, 0},
-    {5, 10, -10, 10, 5},
+    {0,0, 0, 0, 0},
+    {0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0},
+  
+  },    
+  {//pawn
+    {0, 0, 0, 0, 0},
+    {20, 20, 20, 20, 20},
+    {2, 2, 10, 2, 2},//
+    {0, 0, 8, 0, 0},//
+    {2, 4, -8, 4, 2},
     {0, 0, 0, 0, 0},
   },
   {//rookt
     {0, 0, 0, 0, 0},
-    {5,10, 10, 10,5},
-    {-5, 0, 0, 0, -5},
-    {-5, 0, 0, 0, -5},//越中心價值越高??
-    {-5, 0, 0, 0, -5},
-    {0, 5, 5, 5, 0},
+    {2,4, 4, 4,2},
+    {-2, 0, 0, 0, -2},
+    {-2, 0, 0, 0, -2},
+    {-2, 0, 0, 0, -2},
+    {0, 0, 2, 0, 0},
   
   },
   {//knight
-    {-50, -40, -30, -40, -50},
-    {-20,0, 0, 0, -20},
-    {0, 10, 15, 10, 0},
-    {5, 15,20, 15, 5},
-    {-10, 5, 0, 5, -10},
-    {-20, -10, -10, -10, -20},
+    {-20, -16, -12, -16, -20},
+    {-16,-8, 0, -8, -16},
+    {-12, 2,8, 2, -12},
+    {-12, 0,8, 0, -12},
+    {-16, -8, 2, -8, -16},
+    {-20, -16, -12, -16, -20},
   },
   {//bishopt(2)
-    {-5, -5, -15, -5, -5},
-    {-10,0, 5, 0, -10},
-    {-10, 5, 10, 5, -10},
-    {-10, 5, 10, 5, -10},
-    {-10, 0, 5, 0, -10},
-    {-5, -5, -15, -5, -5},
+    {-8, -4, -4, -4, -8},
+    {-4,0, 0, 0, -4},
+    {-4, 2, 4, 2, -4},
+    {-4, 0, 4, 0, -4},
+    {-4, 2, 0, 2, -4},
+    {-8, -4, -4, -4, -8},
   },
   {//queent(2)
-    {-20, -10, -5, -10, -20},
-    {-10,0, 0, 0, -10},
-    {-10, 0, 5, 0, -10},
-    {-10, 5, 5, 0, -10},
-    {-10,5, 0, 0, -10},
-    {-20, -10, -5, -10, -20},
+    {-8, -4, -2, -4, -8},
+    {-2, 0, 2, 0, -2},
+    {0, 0, 2, 0, -2},//
+    {-4,0, 0, 0, -4},//
+    {-8, -4, -2, -4, -8},
   
   },
   {//kingt(2)
-    {-30, -40, -50, -40, -30},
-    {-30, -40, -50, -40, -30},
-    {-30, -40, -50, -40, -30},
-    {-15, -25, -30, -25, -15},
-    {20, 10, 0, 10, 20},
-    {20, 30, 5, 30, 20},
+    {-12, -16, -20, -16, -12},
+    {-12, -16, -20, -16, -12},
+    {-12, -16, -20, -16, -12},
+    {-8, -12, -16, -12, -8},
+    {8, 8, 0, 8, 8},
+    {8, 12, 0, 12, 8},
   
   }
   };
-
+  /*
   int State_Value = 0;
   const int Chess_Point[7] = {0,95,500,320,300,900,100000};
   for (int i = 0;i < BOARD_H;i++){
@@ -85,20 +93,25 @@ int State::evaluate(){
     }
   }
   return State_Value;*/
-  /*
+  
   int State_Value = 0;
-  const int Chess_Point[7] = {0,1,5,3,3,9,10000};
+  const int Chess_Point[7] = {0,4,20,12,12,36,100000};
   for (int i = 0;i < BOARD_H;i++){
     for (int j= 0;j < BOARD_W;j++){
-      if (player == 0 && (board.board[0][i][j] != 0 || board.board[1][i][j] != 0)){
-        State_Value += Chess_Point[board.board[0][i][j]- '0'];
-        State_Value -= Chess_Point[board.board[1][i][j]- '0'];
-      }else if (player == 1 && (board.board[0][i][j] != 0 || board.board[1][i][j] != 0)){
-        State_Value += Chess_Point[board.board[1][i][j] - '0'];
-        State_Value -= Chess_Point[board.board[0][i][j] - '0'];
+      int WhiteBlock = board.board[0][i][j];
+      int BlackBlock = board.board[1][i][j];
+      int WhiteBouns = bouns[WhiteBlock][i][j];
+      int BlackBouns = bouns[BlackBlock][5-i][4-j];
+      if (player == 0){
+        State_Value += (Chess_Point[WhiteBlock] + WhiteBouns + 12);
+        State_Value -= (Chess_Point[BlackBlock] + BlackBouns + 4);
+      }else if (player == 1){
+        State_Value += (Chess_Point[BlackBlock] + BlackBouns + 4);
+        State_Value -= (Chess_Point[WhiteBlock] + WhiteBouns + 12);
       }
     }
-  }*/
+  }
+  /*
   int State_Value = 0;
   static const int Chess_Point[7] = {0,1,5,3,3,9,1000};
   for (int i = 0;i < BOARD_H;++i){
@@ -113,7 +126,7 @@ int State::evaluate(){
       }
     }
   }
-
+  */
   return State_Value;
 }
 

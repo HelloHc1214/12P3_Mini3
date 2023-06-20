@@ -6,7 +6,7 @@
 #include "../policy/AlphaBeta.hpp"
 
 State* root;
-
+int depth;
 /**
  * @brief Read the board from the file
  * 
@@ -40,16 +40,17 @@ void read_board(std::ifstream& fin) {
 void write_valid_spot(std::ofstream& fout) {
   // Keep updating the output until getting killed.
   Move move;
+  depth = 5;
   while(true) {
     // Choose a random spot.
-    move = AlphaBeta::get_move(root, 5);
+    move = AlphaBeta::get_move(root, depth);
 
     fout << move.first.first << " " << move.first.second << " "\
          << move.second.first << " " << move.second.second <<std::endl;
-    
+    depth+=1;
     // Remember to flush the output to ensure the last action is written to file.
     fout.flush();
-    break;
+    //break;
   }
 }
 
