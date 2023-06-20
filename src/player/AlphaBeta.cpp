@@ -41,8 +41,41 @@ void write_valid_spot(std::ofstream& fout) {
   // Keep updating the output until getting killed.
   Move move;
   depth = 5;
+  /*static const char init_board[3][BOARD_H][BOARD_W] ={
+    {
+      {0, 0, 0, 0, 0},
+      {0, 0, 0, 0, 0},
+      {0, 0, 0, 0, 0},
+      {0, 0, 0, 0, 0},
+      {1, 1, 1, 1, 1},
+      {2, 3, 4, 5, 6},
+    },
+    {
+      {6, 5, 4, 3, 2},
+      {1, 1, 1, 1, 1},
+      {0, 0, 0, 0, 0},
+      {0, 0, 0, 0, 0},
+      {0, 0, 0, 0, 0},
+      {0, 0, 0, 0, 0},
+    },
+    {
+      {0, 0, 0, 0, 0},
+      {0, 0, 0, 0, 0},
+      {0, 0, 0, 0, 0},
+      {1, 0, 0, 0, 0},
+      {0, 1, 1, 1, 1},
+      {2, 3, 4, 5, 6},      
+    }
+  }; */
   while(true) {
+    /*if (root->player == 0){
+      if (root->board.board[0] == init_board[0]){
+        move = {Point(4,3),Point(3,3)};
+        break;
+      }
+    }*/
     // Choose a random spot.
+    if (depth == 7) break;
     move = AlphaBeta::get_move(root, depth);
 
     fout << move.first.first << " " << move.first.second << " "\

@@ -10,5 +10,5 @@ using stored_state = std::unordered_map<std::string, int>;
 class AlphaBeta{
 public:
   static Move get_move(State *state, int depth);
-  static int get_alphabeta(State *state2,int depth2,bool me,int alpha,int beta,stored_state& state_table);
+  static int get_alphabeta(State *state2,int depth2,bool me,int alpha,int beta);
 };

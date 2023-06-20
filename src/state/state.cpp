@@ -102,10 +102,19 @@ int State::evaluate(){
       int BlackBlock = board.board[1][i][j];
       int WhiteBouns = bouns[WhiteBlock][i][j];
       int BlackBouns = bouns[BlackBlock][5-i][4-j];
+      //for (auto action = legal_actions.begin();action != legal_actions.end();action++){
+        //State_Value += 1;
+      //}
       if (player == 0){
+        //if (WhiteBlock == 1){
+          //if (i - 1 >= 0 && board.board[0][i-1][j] == '1' ) State_Value -= 2;
+        //}
         State_Value += (Chess_Point[WhiteBlock] + WhiteBouns + 12);
         State_Value -= (Chess_Point[BlackBlock] + BlackBouns + 4);
       }else if (player == 1){
+        //if (BlackBlock == 1){
+          //if (i - 1 >= 0 && board.board[1][i-1][j] == '1' ) State_Value -= 2;
+        //}
         State_Value += (Chess_Point[BlackBlock] + BlackBouns + 4);
         State_Value -= (Chess_Point[WhiteBlock] + WhiteBouns + 12);
       }
